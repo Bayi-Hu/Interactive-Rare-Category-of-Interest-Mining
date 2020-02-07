@@ -4,4 +4,4 @@ The acoustic features were extracted from the audio utilizing the CNN network pr
 
 [Kahl S, Wilhelm-Stein T, Hussein H, et al. Large-Scale Bird Sound Classification using Convolutional Neural Networks[C]//CLEF (Working Notes). 2017.]
 
-For data description, see: 'https://.../Document.pdf' For the audio features, see: 'https://.../Feature' For a few audio samples and their corresponding features, see: 'https//.../Samples'
+For data description, see: './Document.pdf' For the audio features, see: './Feature' For a few audio samples and their corresponding features, see: './Samples'
