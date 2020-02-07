@@ -6,22 +6,19 @@
 
 3. Attribute information:
 
-The shuttle dataset contains 9 attributes all of which are numerical. The first one being time.
-The last column is the class which has been 
-coded as follows :
-        1       Rad Flow
-        2       Fpv Close
-        3       Fpv Open
-        4       High
-        5       Bypass
-        6       Bpv Close
-        7       Bpv Open
+    The shuttle dataset contains 9 attributes all of which are numerical. The first one being time and the last column is the class.
 
 4. Class Distribution:
 
-Approximately 80% of the data belongs to class 1. Therefore the default 
-accuracy is about 80%. The aim here is to obtain an accuracy of 
-99 - 99.9%.        
+    |Index | Class Name | Examples | 
+    | ---- | ---------- | -------- |
+    |   1  |  Rad Flow  |  45586   |
+    |   2  |  Fpv Close |    50    |
+    |   3  |  Fpv Open  |   171    | 
+    |   4  |    High    |   8903   |
+    |   5  |   Bypass   |   3267   |
+    |   6  | Bpv Close  |    10    |
+    |   7  |  Bpv Open  |    13    |
 ---
 ### Acknowledgment:
 Thanks to Jason Catlett of Basser Department of Computer Science, 
