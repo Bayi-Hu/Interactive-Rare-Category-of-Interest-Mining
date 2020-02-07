@@ -8,7 +8,7 @@ import bisect
 import pickle
 import os
 
-args = Args('Abalone')
+args = Args('Shuttle')
 Dist = np.zeros([100, 2])
 RSC = set()
 index2RSCindex = {}
