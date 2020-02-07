@@ -26,11 +26,11 @@ class Args(object):
             self.KMAX = 200
 
         else:
-            raise Exception('No dataset named', self.dataset, '.')
+            raise Exception('No Dataset named', self.dataset, '.')
 
         self.INFINITESIMAL = -99999
         self.rp = 0.1
-        self.dir = os.path.join('./dataset', self.dataset) # directory of data.
+        self.dir = os.path.join('./Dataset', self.dataset) # directory of data.
         self.abs_dir = os.path.join('./Interval_abstraction', self.dataset) # directory of abstraction.
 
 
