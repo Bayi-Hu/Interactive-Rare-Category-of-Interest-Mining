@@ -1,10 +1,8 @@
 # -*- coding:utf-8 -*-
 import numpy as np
 import time
-from Configuration import Args
-from numpy.linalg import cholesky
+from Code.Configuration import Args
 from sklearn.neighbors import KDTree
-import bisect
 import pickle
 import os
 

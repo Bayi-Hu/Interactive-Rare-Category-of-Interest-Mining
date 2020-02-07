@@ -12,7 +12,6 @@ RSCindex2index = {}
 
 def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
     '''
-    一轮只能选取一个样本，也就是只有一个稀有类
     :param NNindex:
     :param PSpace_index:
     :param k:
@@ -156,7 +155,6 @@ def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
 
 def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=None):
     '''
-        一轮只能选取一个样本，也就是只有一个稀有类
         :param NNindex:
         :param PSpace_index:
         :param k:
