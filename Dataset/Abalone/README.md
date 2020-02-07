@@ -1,4 +1,4 @@
-# Abalone dataset description
+# Description of Abalone Dataset
 
 1. Number of Instances: 4177
 
