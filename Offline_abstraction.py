@@ -31,13 +31,12 @@ def Abstraction_Construct(X, Dist):
     '''
     time_start = time.time()
     reserve = int(args.rp * X.shape[0])
-    # 以单个样本a为例，a的稀有类score得分是 d(k+1)/d(avg_k)
-    # d(k+1)是样本a到a的第k+1近邻的距离，d(avg_k)是样本a到a的前k近邻的平均结果
-    # 此处统一a的k近邻包括a自身
+    # take sample a for example, rare-category-score of sample a is d(k+1)/d(avg_k)
+    # d(k+1) is distance from sample a to its k+1-th nearest neighbor;
+    # d(avg_k) is average distance from sample a to its top-k nearest neighbors.
 
     start = time.time()
     for k in range(args.KMIN, args.KMAX + 1):
-        # 此时也可以计算每一个样本对于不同k时的score
         temp = np.argsort(-Dist[:, k] / (np.average(Dist[:, :k], axis=1) + 0.01), axis=0)
         for i in temp[:reserve]:
             RSC.add(i)
@@ -71,7 +70,6 @@ def Abstraction_Construct(X, Dist):
     print('Establishment of OSpace and PSpace costs', time_1 - time_start, 's')
 
     return PSpace_score, PSpace_index, RSC_index_array
-    # 结束循环时now_l的值就是其长度
 
 def main():
     X = np.load(os.path.join(args.dir,'X.npy'))
