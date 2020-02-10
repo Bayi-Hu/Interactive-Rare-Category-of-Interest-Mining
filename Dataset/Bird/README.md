@@ -8,7 +8,9 @@ This is the Bird dataset, which consists of 6,495 audio recordings of various bi
 
 3. **Attribute information**:
 
-   
+    The acoustic features were extracted from the audio utilizing the CNN network proposed in:
+    >Kahl S, Wilhelm-Stein T, Hussein H, et al. Large-Scale Bird Sound Classification using Convolutional Neural Networks[C]//CLEF (Working Notes). 2017.
+
 4. **Class Distribution**
 
     |Class Index |    Class Name   | Number of Instances | Percentage(%)|
