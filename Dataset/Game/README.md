@@ -1,8 +1,8 @@
 # Description of Game Dataset
 
-1. **Number of Instances**: 331853
+1. **Number of Instances**: 331,853
 
-2. **Number of Attributes**: 2048
+2. **Number of Attributes**: 2,048
 
 3. **Number of sampled videos**: 227
 
@@ -10,46 +10,50 @@
 
 3. **Attribute information**:
 
+
 4. **Game Category Distribution**
 
-    |Category Index| Category Name| Number of Instances| Percentage(%)|
-    |--------------|--------------|--------------------|--------------|
-    |              | overwatch    |     23327          |     7.03     |
-    |          |playerunknown's battlegrounds| 16258   |     4.90     |
-    |          |counter-strike: global offensive|40710 |     12.27    |
-    |              |  narcosis    |       1212         |     0.37     |
-    |              |  bioshock 2  |      471           |     0.14     |
-    |              |  dota 2      |      33413         |     10.07    |
-    |              |world of tanks|       2060         |     0.62     |
-    |              |hearthstone   |      19773         |     5.96     |
-    |              |league of legends|  28678          |     8.64     |
-    |              |gears of war 4|       922          |     0.28     |
-    |              |rocket league |      3581          |     1.08     |
-    |              |deformers     |      6285          |     1.89     |      
-    |              |minecraft     |      9086          |     2.74     |
-    |              |world of warcraft|   42548         |    12.82     |
-    |              | destiny      |      27595         |     8.32     |
-    |              | path of exile|       299          |     0.09     |
-    |              |dark souls iii|      5344          |     1.61     |
-    |              |h1z1: king of the kill|  8303      |     2.50     |
-    |              |mlb the show 17|     2861          |     0.86     |
-    |              |    casino     |     9546          |     2.88     |
-    |              |  talk shows   |     6376          |     1.92     |
-    |              |   fifa 17     |      993          |     0.30     |
-    |              |the witcher 3: wild hunt|   176    |     0.05     |
-    |              |tom clancy's rainbow six: siege| 6702|   2.02     |
-    |              |   persona 5   |     1191          |     0.36     |
-    |              |parappa the rapper|  985           |     0.30     |
-    |              |grand theft auto v|  9409          |     2.84     |
-    |              |starcraft: brood war|  991         |     0.30     |
-    |              |  clash royale |     1557          |     0.47     |
-    |              |the elder scrolls: legends|  7917  |     2.39     |
-    |              | tower unite   |     1242          |     0.37     |
-    |              |   golf it!    |     229           |     0.07     |
-    |              |  starcraft ii |     816           |     0.25     |
-    |              |the legend of zelda: breath of the wild| 962  | 0.29  |
-    |              |  poker        |     2382          |     0.72     |
-    |              |night in the woods|   733          |     0.22     |
-    |              | runescape     |      1177         |     0.35     |
-    |              |magic: the gathering|   642        |     0.19     |
+    |Category Index| Category Name| Number of Instances| Percentage(%)| Game Vedio Index |
+    |--------------|--------------|--------------------|--------------|------------------|
+    |       0      | overwatch    |     23,327          |     7.03     | 9, 237, 324, 609, 301, 279, 497, 674, 256, 307, 325, 600, 513, 118, 186, 37, 182, 152|  
+    |       1   |playerunknowns battlegrounds| 16,258   |     4.90     | 2, 342, 249, 434, 361, 236, 470, 446, 61|
+    |       2   |counter-strike: global offensive|40,710 |     12.27    | 5, -17, 552, 522, 349, 270, 549, 385, 381, 500, 277, 281, 85, 129, 104|
+    |       3       |  narcosis    |       1,212         |     0.37     |1 |
+    |       4       |  bioshock 2  |      471           |     0.14     |12|
+    |       5       |  dota 2      |      33,413         |     10.07    |11, -10, -20, 658, 645, 368, 332, 260, 506, 328, 463, 415, 528, 52, 174|
+    |       6       |world of tanks|       2,060         |     0.62     |13, 6, 31, 24|
+    |       7       |hearthstone   |      19,773         |     5.96     |7, 10, -13, 308, 347, 413, 668, 459, 474, 666, 672, 226, 338, 425, 41|
+    |       8       |league of legends|  28,678          |     8.64     |8, 329, 310, 414, 583, 393, 660, 320, 370, 620, 357, 657, 290, 586, 121, 141, 75, 157|
+    |       9       |gears of war 4|       922          |     0.28     |4|
+    |       10       |rocket league |      3,581          |     1.08     |3, 21|
+    |       11      |deformers     |      6,285          |     1.89     |-19|      
+    |       12       |minecraft     |      9,086          |     2.74     |-14, 455|
+    |       13      |world of warcraft|   42,548         |    12.82     |514, 423, 257, 501, 494, 365, 444, 663, 529, 617, 433, 469, 272, 523, 375, 443, 74, 76, 126, 130, 34|
+    |       14       | destiny      |      27,595         |     8.32     |401, 398, 438, 598, 437, 550, 247, 389, 545, 71|
+    |       15       | path of exile|       299          |     0.09     |390|
+    |       16       |  irl         |       5,101         |     1.54      |561, 574, 556, 362, 633, 407, 665, 562, 356, 298, 297, 537, 439, 391, 134, 166, 107, 119, 93, 196, 145|
+    |       16       |dark souls iii|      5,344          |     1.61     |384, 374, 412, 477, 378, 183, 176, 185|
+    |       17       |h1z1: king of the kill|  8,303      |     2.50     |615, 344, 282, 577, 330, 587, 502, 464, 146, 94, 64|
+    |       18       |mlb the show 17|     2,861          |     0.86     |372, 377, 396, 403, 364, 388|
+    |       19       |    casino     |     9,546          |     2.88     |448, 629, 149|
+    |       20       |  talk shows   |     6,376          |     1.92     |341, 336, 635, 231, 442, 269, 489, 26|
+    |       21       |   fifa 17     |      993          |     0.30     |471, 478|
+    |       22       |the witcher 3: wild hunt|   176    |     0.05     |451|
+    |       23       |tom clancys rainbow six: siege| 6,702|   2.02     |608, 322, 321, 331|
+    |       24       |   persona 5   |     1,191          |     0.36     |525, 504|
+    |       25       |parappa the rapper|  985           |     0.30     |452, 447, 450|
+    |       26       |grand theft auto v|  9,409          |     2.84     |553, 548, 302, 570|
+    |       27       |starcraft: brood war|  991         |     0.30     |431|
+    |       28       |  clash royale |     1,557          |     0.47     |254, 485|
+    |       29       |the elder scrolls: legends|  7917  |     2.39     |595|
+    |       30       | tower unite   |     1,242          |     0.37     |551, 538|
+    |       31       |   golf it!    |     229           |     0.07     |490|
+    |       32       |  starcraft ii |     816           |     0.25     |487|
+    |       33       |the legend of zelda: breath of the wild| 962  | 0.29  |623, 135|
+    |       34       |  poker        |     2,382          |     0.72     |142, 139, 47, 38, 45|
+    |       35       |night in the woods|   733          |     0.22     |44, 42|
+    |       36       | runescape     |      1,177         |     0.35     |68, 192|
+    |       37       |magic: the gathering|   642        |     0.19     |48|
+    |      Total     |        —           |   331,853     |     1.00     | — |
     
+

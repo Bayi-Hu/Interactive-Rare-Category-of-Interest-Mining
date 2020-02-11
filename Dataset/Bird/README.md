@@ -56,7 +56,7 @@ This is the Bird dataset, which consists of 6,495 audio recordings of various bi
     | 38 |Picoides tridactylus| 46 | 0.71 |
     | 39 |Passer| 27 | 0.42 |
     | 40 |Dicaeum chrysorrheum| 2 | 0.03 |
-    
+    | Total|     —           | 6,495 | 1.00 | 
     
 ---
 For more data description, please refer to './Document.pdf'; For the audio features, see: './Feature' For a few audio samples and their corresponding features, see: './Samples'

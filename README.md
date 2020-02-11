@@ -28,23 +28,27 @@ Code and datasets released for the paper ["Interactive-Rare-Category-of-Interest
 `IRim_RCD.py` is the IRim algorithm for rare category detection.
 
 `IRim_RCE.py` is the IRim algorithm for rate category exploration.
-
-`Offline_abstraction` is the code for offline abstraction construction process.
+ 
+`Offline_abstraction` is the code for offline abstraction process.
 
 `Configuration.py` is the parameter configuration used in the experiment.
 
 ### **Dataset**
 
-Abalone, Shuttle and Kddcup are commonly used for rare category mining in academia. **Bird** and **Game** are two new datasets proposed by us and will be released soon.
+Abalone, Shuttle and Kddcup are commonly used for rare category mining in academia. 
+
+**Bird** and **Game** are two new datasets proposed by us and will be released soon.
  
 ### **Interval Abstraction**
 
-Following the settings of the paper, 
+Following the settings of the paper, interval abstraction will be built during the offline abstraction procedure. It mainly includes three files: PSpace, NNindex and .
 
 ### Usage
 
-To run the code, you may first run ` Offinle_abstraction.py`  for abstraction construction, then run `IRim_RCD.py` to interactively detect few samples for rare-category-of-interest, and eventually run `IRim_RCE.py` to explore as much as possible samples from rare-category-of-interest.      
+To run the code, you may first run ` Offinle_abstraction.py`  for abstraction construction, and then run `IRim_RCD.py` to interactively detect few samples for rare-category-of-interest, and eventually run `IRim_RCE.py` to explore as much as possible samples from rare-category-of-interest.      
 
 ### Citation
 please use the following bibtex entry:
+
+
 
