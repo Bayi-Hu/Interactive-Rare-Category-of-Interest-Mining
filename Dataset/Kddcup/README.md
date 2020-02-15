@@ -25,6 +25,7 @@ In our rare category mining task, the version of a 10% subset is adopted, i.e., 
     |land | 1 if connection is from/to the same host/port; 0 otherwise | discrete|
     |wrong_fragment | number of \``wrong\'' fragments | continuous|
     |urgent | number of urgent packets | continuous |
+    
     Table 1: Basic features of individual TCP connections.
 
     |feature name | description | type |
@@ -42,6 +43,7 @@ In our rare category mining task, the version of a 10% subset is adopted, i.e., 
     |num_outbound_cmds | number of outbound commands in an ftp session 	| continuous|
     |is_hot_login |	1 if the login belongs to the ``hot'' list; 0 otherwise  | discrete|
     |is_guest_login | 1 if the login is a ``guest''login; 0 otherwise | discrete|
+    
     Table 2: Content features within a connection suggested by domain knowledge.
 
     |feature name | description | type |
@@ -57,6 +59,7 @@ In our rare category mining task, the version of a 10% subset is adopted, i.e., 
     |srv_serror_rate | \% of connections that have ``SYN'' errors |	continuous|
     |srv_rerror_rate | \% of connections that have ``REJ'' errors | continuous|
     |srv_diff_host_rate | \% of connections to different hosts | continuous|
+    
     Table 3: Traffic features computed using a two-second time window.
     
 3. **Class Distribution**
