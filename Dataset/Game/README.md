@@ -9,7 +9,12 @@
 4. **Number of Game Categories**: 39
 
 3. **Attribute information**:
-
+    
+    Raw images are sampled from videos on the web (https://www.twitch.tv/directory).
+                                                                             
+    A 2,048 dimensional feature for each image was extracted by a ResNet-50 model pre-trained on ImageNet, which is proposed in:
+    >He, K., Zhang, X., Ren, S., and Sun, J. 2015. Deep residual learning for image recognition. arXiv preprint arXiv:1512.03385.
+ 
 
 4. **Game Category Distribution**
 
@@ -57,3 +62,5 @@
     |      Total     |        —           |   331,853     |     1.00     | — |
     
 
+## 
+For more details, please refer to 

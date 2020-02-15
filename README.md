@@ -16,10 +16,10 @@ Code and datasets released for the paper ["Interactive-Rare-Category-of-Interest
 │     └── Game*
 ├── Interval_abstraction
 │     ├── Abalone
-│     ├── Bird
+│     ├── Bird*
 │     ├── Shuttle
 │     ├── Kddcup
-│     └── Game
+│     └── Game*
 ├── README
  ```
 
@@ -37,7 +37,7 @@ Code and datasets released for the paper ["Interactive-Rare-Category-of-Interest
 
 Abalone, Shuttle and Kddcup are commonly used for rare category mining in academia. 
 
-**Bird** and **Game** are two new datasets proposed by us and will be released soon.
+**Bird**\* and **Game**\* are two new datasets proposed by us and will be released soon.
  
 ### **Interval Abstraction**
 
