@@ -6,26 +6,27 @@ from sklearn.neighbors import KDTree
 import pickle
 import os
 
-args = Args('Shuttle')
+args = Args('Abalone')
 Dist = np.zeros([100, 2])
 RSC = set()
-index2RSCindex = {}
-RSCindex2index = {}
+
+AbsIdx2Idx = {}
+Idx2AbsIdx = {}
 
 def mapping():
+    '''
+    Generate index mapping function between data abstraction and raw features
+    '''
     count = 0
-    global index2RSCindex, RSCindex2index
+    global Idx2AbsIdx, AbsIdx2Idx
     for i in RSC:
-        index2RSCindex[i] = count
-        RSCindex2index[count] = i
+        Idx2AbsIdx[i] = count
+        AbsIdx2Idx[count] = i
         count += 1
 
 def Abstraction_Construct(X, Dist):
     '''
-    :param args:
-    :param X:
-    :param kdtree:
-    :return:
+    Construct offline data abstraction for the follow-up rare category mining.
     '''
     time_start = time.time()
     reserve = int(args.rp * X.shape[0])
@@ -42,32 +43,26 @@ def Abstraction_Construct(X, Dist):
     end = time.time()
     print('Picking candidates costs', end-start, 's')
     print('The number of candidates is', len(RSC))
-
     mapping()
-    RSC_index_array = np.array(list(RSC))
-    Dist = Dist[RSC_index_array]
-
-    PSpace_score = []
-    PSpace_index = []
+    Abs_idx_lst = np.array(list(RSC))
+    Dist = Dist[Abs_idx_lst]
+    Abs_scr = []
+    Abs_idx = []
 
     start = time.time()
-
     for k in range(args.KMIN, args.KMAX + 1):
         D_k = Dist[:, k] / (np.average(Dist[:, :k], axis=1) + 0.01)
-
-        PSpace_score.append(np.sort(D_k))
-        PSpace_index.append(np.argsort(D_k))
+        Abs_scr.append(np.sort(D_k))
+        Abs_idx.append(np.argsort(D_k))
 
     end = time.time()
     print('''Calculating candidates' score costs''', end - start, 's')
-
-    PSpace_score = np.array(PSpace_score)
-    PSpace_index = np.array(PSpace_index)
-
+    Abs_scr = np.array(Abs_scr)
+    Abs_idx = np.array(Abs_idx)
     time_1 = time.time()
     print('Establishment of OSpace and PSpace costs', time_1 - time_start, 's')
 
-    return PSpace_score, PSpace_index, RSC_index_array
+    return Abs_scr, Abs_idx, Abs_idx_lst
 
 def main():
     X = np.load(os.path.join(args.dir,'X.npy'))
@@ -78,20 +73,20 @@ def main():
     np.save(os.path.join(args.dir, 'Dist.npy'), Dist)
     np.save(os.path.join(args.dir, 'NNindex.npy'), NNindex)
 
-    (PSpace_score, PSpace_index, RSC_index_array) = Abstraction_Construct(X, Dist)
+    (Abs_scr, Abs_idx, Abs_idx_lst) = Abstraction_Construct(X, Dist)
 
-    with open(os.path.join(args.abs_dir, 'PSpace_score'),'wb') as f:
-        pickle.dump(PSpace_score, f)
-    with open(os.path.join(args.abs_dir, 'PSpace_index'),'wb') as f:
-        pickle.dump(PSpace_index, f)
-    with open(os.path.join(args.abs_dir, 'RSC_index_array'),'wb') as f:
-        pickle.dump(RSC_index_array, f)
-    with open(os.path.join(args.abs_dir, 'index2RSCindex'),'wb') as f:
-        pickle.dump(index2RSCindex, f)
-    with open(os.path.join(args.abs_dir, 'RSCindex2index'),'wb') as f:
-        pickle.dump(RSCindex2index, f)
+    with open(os.path.join(args.abs_dir, 'Abs_scr'),'wb') as f:
+        pickle.dump(Abs_scr, f)
+    with open(os.path.join(args.abs_dir, 'Abs_idx'),'wb') as f:
+        pickle.dump(Abs_idx, f)
+    with open(os.path.join(args.abs_dir, 'Abs_idx_lst'),'wb') as f:
+        pickle.dump(Abs_idx_lst, f)
+    with open(os.path.join(args.abs_dir, 'Idx2AbsIdx'),'wb') as f:
+        pickle.dump(Idx2AbsIdx, f)
+    with open(os.path.join(args.abs_dir, 'AbsIdx2Idx'),'wb') as f:
+        pickle.dump(AbsIdx2Idx, f)
 
-    print('pause')
+    print('Offline abstraction construction has finished..')
 
 if __name__ == '__main__':
     main()

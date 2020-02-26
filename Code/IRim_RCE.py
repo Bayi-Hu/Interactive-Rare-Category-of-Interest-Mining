@@ -1,28 +1,42 @@
 # -*- coding:utf-8 -*-
-import time
 import numpy as np
-import argparse
-import sys
+import time
+from Code.Configuration import Args
 import os
 import pickle
-import time
 
-index2RSCindex = {}
-RSCindex2index = {}
+args = Args('Abalone')
 
-def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
+# Load Abstraction
+with open(os.path.join(args.abs_dir, 'Abs_scr'), 'rb') as f:
+    Abs_scr = pickle.load(f)
+with open(os.path.join(args.abs_dir, 'Abs_idx'), 'rb') as f:
+    Abs_idx = pickle.load(f)
+with open(os.path.join(args.abs_dir, 'Abs_idx_lst'), 'rb') as f:
+    Abs_idx_lst = pickle.load(f)
+with open(os.path.join(args.abs_dir, 'Idx2AbsIdx'), 'rb') as f:
+    Idx2AbsIdx = pickle.load(f)
+with open(os.path.join(args.abs_dir, 'AbsIdx2Idx'), 'rb') as f:
+    AbsIdx2Idx = pickle.load(f)
+
+X = np.load(os.path.join(args.dir, 'X.npy'), allow_pickle=True)
+y = np.load(os.path.join(args.dir, 'y.npy'), allow_pickle=True)
+Dist = np.load(os.path.join(args.dir, 'Dist.npy'))
+NNindex = np.load(os.path.join(args.dir, 'NNindex.npy'))
+
+def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
     '''
     :param NNindex:
-    :param PSpace_index:
+    :param Abs_idx:
     :param k:
     :param y:
     :param string2index:
     :return:
     '''
     pick_num = 0
-    Index_list = list(PSpace_index[k - kmin])
+    Index_list = list(Abs_idx[k - args.KMIN])
     Index_list.reverse()
-    Index_list = map(lambda x: RSCindex2index[x], Index_list)
+    Index_list = map(lambda x: AbsIdx2Idx[x], Index_list)
     Pos_sample_set = set()
     Neg_sample_set = set()
     # construct_num = max(100, 2*k)
@@ -131,7 +145,7 @@ def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
         m = k - 1 - iter
         top_m = Sorted[:m, 0]
 
-        # 计算precision
+        # top_m precision
         fenzi = 0
         for i in top_m:
             if y[i] == target_class:
@@ -154,19 +168,19 @@ def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
     return check_list, target_class
 
 
-def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=None):
+def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
     '''
         :param NNindex:
-        :param PSpace_index:
+        :param Abs_idx:
         :param k:
         :param y:
         :param string2index:
         :return:
         '''
     pick_num = 0
-    Index_list = list(PSpace_index[k - kmin])
+    Index_list = list(Abs_idx[k - args.KMIN])
     Index_list.reverse()
-    Index_list = map(lambda x: RSCindex2index[x], Index_list)
+    Index_list = map(lambda x: AbsIdx2Idx[x], Index_list)
     start = time.time()
     Pos_sample_set = set()
     Neg_sample_set = set()
@@ -283,57 +297,8 @@ def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=Non
     print(sum(check_list) * 1.0 / len(check_list))
     return check_list, target_class
 
+def main():
 
-def main(args):
-    if args.op:
-        # with open(os.path.join(args.dir, 'Dist', 'OSpace'),'r') as f:
-        #     OSpace = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dist', 'PSpace_score'), 'r') as f:
-            PSpace_score = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dist', 'PSpace_index'), 'r') as f:
-            PSpace_index = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dist', 'RSC_index_array'), 'r') as f:
-            RSC_index_array = pickle.load(f)
-
-        with open(os.path.join(args.dir, 'Dist', 'index2RSCindex'), 'r') as f:
-            global index2RSCindex
-            index2RSCindex = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dist', 'RSCindex2index'), 'r') as f:
-            global index2RSCindex
-            RSCindex2index = pickle.load(f)
-
-        with open(os.path.join(args.dir, 'Dist', 'kmin'), 'r') as f:
-            kmin = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dist', 'kmax'), 'r') as f:
-            kmax = pickle.load(f)
-    else:
-
-        # with open(os.path.join(args.dir, 'Dens', 'OSpace'),'r') as f:
-        #     OSpace = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dens', 'PSpace_score'), 'r') as f:
-            PSpace_score = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dens', 'PSpace_index'), 'r') as f:
-            PSpace_index = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dens', 'RSC_index_array'), 'r') as f:
-            RSC_index_array = pickle.load(f)
-
-        with open(os.path.join(args.dir, 'Dens', 'index2RSCindex'), 'r') as f:
-            global index2RSCindex
-            index2RSCindex = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dens', 'RSCindex2index'), 'r') as f:
-            global RSCindex2index
-            RSCindex2index = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dens', 'kmin'), 'r') as f:
-            global kmin
-            kmin = pickle.load(f)
-        with open(os.path.join(args.dir, 'Dens', 'kmax'), 'r') as f:
-            global kmax
-            kmax = pickle.load(f)
-
-    X = np.load(os.path.join(args.dir, 'X.npy'), allow_pickle=True)
-    y = np.load(os.path.join(args.dir, 'y.npy'), allow_pickle=True)
-    Dist = np.load(os.path.join(args.dir, 'Dist.npy'))
-    NNindex = np.load(os.path.join(args.dir, 'NNindex.npy'))
     count = dict()
     for i in y:
         try:
@@ -347,19 +312,12 @@ def main(args):
         if k < 0:
             break
 
-        (check_list, category) = Sample_Construct(NNindex, PSpace_index, k, X, y)
-        (check_list, category) = Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y)
-
+        (check_list, category) = Sample_Construct(NNindex, Abs_idx, k, X, y)
+        #(check_list, category) = Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y)
         accuracy_k = sum(check_list)*1.0/len(check_list)
-        print('accuracy = ',accuracy_k)
+        print('accuracy = ', accuracy_k)
         recall = sum(check_list)*1.0/count[category]
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    main()
 
-    parser.add_argument('-dir', type=str, required=True, help='path to the input data directory')
-    parser.add_argument('-op', type=int, default=0, help='option for density or distance')
-    parser.add_argument('-method', type=str, default='rc', help='rc or nn or knn')
-    args = parser.parse_args()
-
-    main(args)

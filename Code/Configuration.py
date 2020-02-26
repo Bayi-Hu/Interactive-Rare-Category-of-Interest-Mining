@@ -30,7 +30,7 @@ class Args(object):
 
         self.INFINITESIMAL = -99999
         self.rp = 0.1
-        self.dir = os.path.join('../Dataset', self.dataset) # directory of data.
+        self.dir = os.path.join('../Dataset', self.dataset,'Features') # directory of data.
         self.abs_dir = os.path.join('../Interval_abstraction', self.dataset) # directory of abstraction.
 
 
