@@ -25,19 +25,22 @@ def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
     Index_list = map(lambda x: RSCindex2index[x], Index_list)
     Pos_sample_set = set()
     Neg_sample_set = set()
-    # construct_num = max(100, 2*k)#选取某一个点之后的2*k个点进行重构排序
+    # construct_num = max(100, 2*k)
     construct_num = 1000
     check_list = [1]
-    top_m_precision = []
 
     for i in range(150):
         print(Index_list[i], y[Index_list[i]])
-    print('是否挖掘？1 for yes.')
-    yes = int(input())
-    if yes != 1:
-        return
 
-    print('输入感兴趣的样本点'),
+    print('Mining ？ (y/[n])?')
+    yes = int(input())
+    if yes != 'y' or 'yes':
+        print('finishing..')
+        return
+    else:
+        print('resuming operation...')
+
+    print('Please enter the index of sample you are interested in.'),
     first_sample = int(input())
     arg_first_sample = np.where(np.array(Index_list) == first_sample)[0][0]
 
@@ -134,8 +137,6 @@ def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
             if y[i] == target_class:
                 fenzi += 1
 
-        top_m_precision.append(fenzi * 1.0 / m)
-
         # print(Info[check])
         if y[check] == target_class:
             Pos_sample_set.add(check)
@@ -150,7 +151,7 @@ def Sample_Construct(NNindex, PSpace_index, k, X, y, string2index=None):
     end = time.time()
     print((end - start) * 1.0 / (k - 1))
 
-    return check_list, target_class, top_m_precision
+    return check_list, target_class
 
 
 def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=None):
@@ -169,19 +170,22 @@ def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=Non
     start = time.time()
     Pos_sample_set = set()
     Neg_sample_set = set()
-    # construct_num = max(100, 2*k)#选取某一个点之后的2*k个点进行重构排序
+    # construct_num = max(100, 2*k)
     construct_num = 1000
     check_list = [1]
-    top_m_precision = []
 
     for i in range(150):
         print(Index_list[i], y[Index_list[i]])
-    print('是否挖掘？1 for yes.')
-    yes = int(input())
-    if yes != 1:
-        return
 
-    print('输入感兴趣的样本点'),
+    print('Mining ？ (y/[n])?')
+    yes = int(input())
+    if yes != 'y' or 'yes':
+        print('finishing..')
+        return
+    else:
+        print('resuming operation...')
+
+    print('Please enter the index of sample you are interested in.'),
     first_sample = int(input())
     arg_first_sample = np.where(np.array(Index_list) == first_sample)[0][0]
 
@@ -264,8 +268,6 @@ def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=Non
             if y[i] == target_class:
                 fenzi += 1
 
-        top_m_precision.append(fenzi * 1.0 / m)
-
         # print(Info[check])
         if y[check] == target_class:
             Pos_sample_set.add(check)
@@ -279,7 +281,7 @@ def Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y, string2index=Non
         Interesting_set.remove(check)
 
     print(sum(check_list) * 1.0 / len(check_list))
-    return check_list, target_class, top_m_precision
+    return check_list, target_class
 
 
 def main(args):
@@ -340,29 +342,17 @@ def main(args):
             count[i] = 1
 
     while 1:
-        print('输入需要探测的k,输入任意负数退出检测'),
+        print('please enter the parameter k, enter any negative number to exit..')
         k = int(input())
         if k < 0:
             break
-        if args.method == 'rc':
-            # check_list, category, top_m_precision = Sample_Construct(NNindex, PSpace_index, k, X, y)
-            # Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y)
-            Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y)
-            # Sample_Construct(NNindex, PSpace_index, k, X, y)
 
-        elif args.method == 'nn':
-            # check_list, category, top_m_precision = Sample_NearestNN(NNindex, PSpace_index, k, X, y)
-            Sample_NearestNN(NNindex, PSpace_index, k, X, y)
-        elif args.method == 'knn':
-            # check_list, category, top_m_precision = Sample_KNN_average(NNindex,PSpace_index, k, X, y)
-            Sample_KNN_average(NNindex, PSpace_index, k, X, y)
+        (check_list, category) = Sample_Construct(NNindex, PSpace_index, k, X, y)
+        (check_list, category) = Sample_Construct_constrainb(NNindex, PSpace_index, k, X, y)
 
-        # precision_k = sum(check_list)*1.0/len(check_list)
-        # print('precision_k = ',precision_k)
-        # recall = sum(check_list)*1.0/count[category]
-        # print('recall=',recall)
-        # print('top_m_precision',top_m_precision)
-
+        accuracy_k = sum(check_list)*1.0/len(check_list)
+        print('accuracy = ',accuracy_k)
+        recall = sum(check_list)*1.0/count[category]
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

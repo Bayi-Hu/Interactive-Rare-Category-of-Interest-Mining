@@ -58,7 +58,7 @@ def RCD_interact(NNindex, PSpace_index, k, y):
 
 def main():
     while True:
-        print('Enter parameter k, enter any negative number to exit..')
+        print('please enter the parameter k, enter any negative number to exit..')
         k = int(input())
         if k < 0:
             break
