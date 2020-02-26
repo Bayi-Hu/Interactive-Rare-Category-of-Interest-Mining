@@ -31,7 +31,7 @@ def KNN(NNindex,index,k):
 def RCD_auto(NNindex, Abs_idx, k, y):
     '''
     For convience of rare category detection, we set up an automatic RCD function, i.e.,
-    assumes that the category user interested in is one of the category of the dataset.
+    assume that the category user interested in is one of the category of the dataset.
     This function works on Abalone, Bird, Shuttle and Kddcup datasets(have class labels themselves).
     '''
 

@@ -36,7 +36,7 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
     pick_num = 0
     Index_list = list(Abs_idx[k - args.KMIN])
     Index_list.reverse()
-    Index_list = map(lambda x: AbsIdx2Idx[x], Index_list)
+    Index_list = list(map(lambda x: AbsIdx2Idx[x], Index_list))
     Pos_sample_set = set()
     Neg_sample_set = set()
     # construct_num = max(100, 2*k)
@@ -46,9 +46,9 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
     for i in range(150):
         print(Index_list[i], y[Index_list[i]])
 
-    print('Mining ？ (y/[n])?')
-    yes = int(input())
-    if yes != 'y' or 'yes':
+    print('Mining？ (y/[n])?')
+    yes = str(input())
+    if yes not in ('y', 'yes'):
         print('finishing..')
         return
     else:
@@ -180,7 +180,7 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
     pick_num = 0
     Index_list = list(Abs_idx[k - args.KMIN])
     Index_list.reverse()
-    Index_list = map(lambda x: AbsIdx2Idx[x], Index_list)
+    Index_list = list(map(lambda x: AbsIdx2Idx[x], Index_list))
     start = time.time()
     Pos_sample_set = set()
     Neg_sample_set = set()
@@ -192,8 +192,8 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
         print(Index_list[i], y[Index_list[i]])
 
     print('Mining ？ (y/[n])?')
-    yes = int(input())
-    if yes != 'y' or 'yes':
+    yes = str(input())
+    if yes not in ('y', 'yes'):
         print('finishing..')
         return
     else:
@@ -299,24 +299,15 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
 
 def main():
 
-    count = dict()
-    for i in y:
-        try:
-            count[i] += 1
-        except:
-            count[i] = 1
-
     while 1:
         print('please enter the parameter k, enter any negative number to exit..')
         k = int(input())
         if k < 0:
             break
-
-        (check_list, category) = Sample_Construct(NNindex, Abs_idx, k, X, y)
-        #(check_list, category) = Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y)
+        #(check_list, category) = Sample_Construct(NNindex, Abs_idx, k, X, y)
+        (check_list, category) = Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y)
         accuracy_k = sum(check_list)*1.0/len(check_list)
         print('accuracy = ', accuracy_k)
-        recall = sum(check_list)*1.0/count[category]
 
 if __name__ == '__main__':
     main()
