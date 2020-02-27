@@ -63,4 +63,6 @@
     
 
 ## 
-For more details, please refer to 
+### Download:
+For the raw features, please refer to https://drive.google.com/file/d/1c6TggTzzenKRV6TwrRn2gKmmlwLLTEPB/view?usp=sharing.
+For the Game image samples, please refer to https://drive.google.com/file/d/14WrkyDkMQ34V07R4vxt4bqA6RNkIFbu1/view?usp=sharing.

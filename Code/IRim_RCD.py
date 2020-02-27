@@ -4,6 +4,7 @@ import time
 from Code.Configuration import Args
 import os
 import pickle
+import bisect
 
 args = Args('Abalone')
 
@@ -25,6 +26,9 @@ Dist = np.load(os.path.join(args.dir, 'Dist.npy'))
 NNindex = np.load(os.path.join(args.dir, 'NNindex.npy'))
 
 def KNN(NNindex,index,k):
+    '''
+    Find k-nearest neighbors for a certain data sample.
+    '''
     K_index = NNindex[index][:k]
     return K_index
 
@@ -32,6 +36,8 @@ def RCD_auto(NNindex, Abs_idx, k, y):
     '''
     For convience of rare category detection, we set up an automatic RCD function, i.e.,
     assume that the category user interested in is one of the category of the dataset.
+    This function select top data samples according to their candidate scores,
+    and applied kNN rules automatically to eliminate data samples from discovered categories.
     This function works on Abalone, Bird, Shuttle and Kddcup datasets(have class labels themselves).
     '''
 
@@ -58,10 +64,49 @@ def RCD_auto(NNindex, Abs_idx, k, y):
     end = time.time()
     return end - start
 
-def RCD_interact(NNindex, Abs_idx, k, y):
+def RCD_interact(NNindex, Abs_idx, Abs_scr, k):
     '''
+    To align with the settings in the paper, we set up an interactive RCD function.
+    The input is an query triple <k,s_low, s_up>,
+    where k represents the expected number of data examples in the rare category to be detected,
+    s_low and s_up denote the lower and upper bounds of the rare category candidate score.
+    '''
+    label_time = 0
 
-    '''
+    Index_list = list(Abs_idx[k - args.KMIN])
+    Index_list = list(map(lambda x: AbsIdx2Idx[x], Index_list))
+    Found_class = set()
+
+    Score_list = list(Abs_scr[k - args.KMIN])
+    print('The range of candidate score scales from', Score_list[0],'to',Score_list[-1])
+    print('please enter the parameter <s_low, s_up> for this query'),
+    print('s_low = '),
+    s_low = float(input())
+    print('s_up = '),
+    s_up = float(input())
+
+    idx_low = bisect.bisect_left(Score_list, s_low)
+    idx_up = bisect.bisect_right(Score_list, s_up)
+
+    Query_list = Index_list[idx_low:idx_up]
+    Query_list.reverse()
+
+    #一个切片list
+    print('本次query一共有', len(Query_list), '个数据,将由candidate score 最高的数据点进行贴标 ，1 for 感兴趣, 0 for 不感兴趣')
+
+    while True:
+
+        print('please label this sample, 1 for interested in , 0 for uninterested in.')
+        label = (input())
+        print('Applied kNN rule for this sample? (y/[n])?')
+        yes =
+        if not yes.:
+
+            K_index = KNN(NNindex, Top_index, k)
+            Delete_index = set(K_index) & set(Index_list)
+
+
+
     return
 
 def main():
@@ -69,8 +114,18 @@ def main():
         print('please enter the parameter k, enter any negative number to exit..')
         k = int(input())
         if k < 0:
+            print('finishing..')
             break
         RCD_auto(NNindex, Abs_idx, k, y)
+
+    while True:
+        print('please enter the parameter k, enter any negative number to exit..')
+        k = int(input())
+        if k < 0:
+            print('finishing..')
+            break
+
+
 
 if __name__ == '__main__':
     main()
