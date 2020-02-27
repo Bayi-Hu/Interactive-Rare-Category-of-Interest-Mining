@@ -45,7 +45,7 @@ For downloading **Game**, please refer to https://drive.google.com/file/d/1c6Tgg
  
 ### **Interval Abstraction**
 
-Following the settings of the paper, interval abstraction will be built during the offline abstraction procedure. It mainly includes 5 files: `Abs_idx, Abs_idx_lst, Abs_scr, AbsIdx2Idx, Dist.npy, Idx2AbsIdx and NNindex.npy`.
+Following the settings of the paper, interval abstraction will be built during the offline abstraction procedure. It mainly includes five files: `Abs_idx, Abs_idx_lst, Abs_scr, AbsIdx2Idx, Dist.npy, Idx2AbsIdx and NNindex.npy`.
 
 ### Usage
 
