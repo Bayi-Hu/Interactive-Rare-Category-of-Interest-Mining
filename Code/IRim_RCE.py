@@ -24,14 +24,11 @@ y = np.load(os.path.join(args.dir, 'y.npy'), allow_pickle=True)
 Dist = np.load(os.path.join(args.dir, 'Dist.npy'))
 NNindex = np.load(os.path.join(args.dir, 'NNindex.npy'))
 
-def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
+def RCE_reconstruction(NNindex, Abs_idx, k, X, y, string2index=None):
     '''
-    :param NNindex:
-    :param Abs_idx:
-    :param k:
-    :param y:
-    :param string2index:
-    :return:
+
+    After detecting a few interesting data examples, RCE further seeks to identify other similar and interesting data examples in the same rare category.
+    by constructing target data samples with positive data samples and negative data samples.
     '''
     pick_num = 0
     Index_list = list(Abs_idx[k - args.KMIN])
@@ -41,29 +38,15 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
     Neg_sample_set = set()
     # construct_num = max(100, 2*k)
     construct_num = 1000
-    check_list = [1]
-
-    for i in range(150):
-        print(Index_list[i], y[Index_list[i]])
-
-    print('Mining？ (y/[n])?')
-    yes = str(input())
-    if yes not in ('y', 'yes'):
-        print('finishing..')
-        return
-    else:
-        print('resuming operation...')
 
     print('Please enter the index of sample you are interested in.'),
     first_sample = int(input())
     arg_first_sample = np.where(np.array(Index_list) == first_sample)[0][0]
-
     Interesting_set = set(Index_list[arg_first_sample + 1:arg_first_sample + construct_num + 1])
     target_class = y[first_sample]
     Pos_sample_set.add(first_sample)
 
     start = time.time()
-
     for iter in range(k - 1):
 
         candidate = list(Interesting_set)
@@ -94,11 +77,7 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
             P_I = np.linalg.inv(P)
             x = np.matmul(P_I, u) / (np.matmul(np.matmul(u.T, P_I), u))
             a = x[0:-1].T
-            # a = np.abs(a)
             b = x[-1]
-            # print(b)
-            # print(a)
-            # b = np.abs(b)
             # similarity[c] = -1 * (np.linalg.norm(np.matmul(a,sample_pos) - X[c])**2)
             similarity[c] = -1 * (np.linalg.norm(np.matmul(a, sample_pos) - b * X[c]) ** 2)
             Info[c] = []
@@ -107,7 +86,6 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
             # print('similarity:',similarity[c])
             # print(y[c])
             # print('------')
-
             if len(Neg_sample_set):
                 Neg_sample = list(Neg_sample_set)
                 sample_neg = X[[Neg_sample[0]]]
@@ -117,7 +95,6 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
 
                 D = np.concatenate([sample_neg, -X[[c]]], axis=0).T
                 e = np.ones(D.shape[1] - 1)
-                # e = np.zeros(D.shape[1] - 1)
 
                 B = np.eye(D.shape[1])
                 # B *= gamma
@@ -131,9 +108,6 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
                 a = x[0:-1].T
                 # a = np.abs(a)
                 b = x[-1]
-                # print(a)
-                # print(b)
-                # b = np.abs(b)
                 # similarity[c] +=  (np.linalg.norm(np.matmul(a, sample_neg) - X[c]) ** 2)
                 similarity[c] += 1 * (np.linalg.norm(np.matmul(a, sample_neg) - b * X[c]) ** 2)
                 Info[c].append(('neg_a', a))
@@ -142,41 +116,23 @@ def Sample_Construct(NNindex, Abs_idx, k, X, y, string2index=None):
         Sorted = np.array(sorted(similarity.items(), key=lambda similarity: similarity[1], reverse=True)).astype(int)
         check = Sorted[0][0]
 
-        m = k - 1 - iter
-        top_m = Sorted[:m, 0]
-
-        # top_m precision
-        fenzi = 0
-        for i in top_m:
-            if y[i] == target_class:
-                fenzi += 1
-
         # print(Info[check])
         if y[check] == target_class:
             Pos_sample_set.add(check)
-            check_list.append(1)
             print(iter + 1, 'gocha!', check, y[check])
         else:
             Neg_sample_set.add(check)
             print(iter + 1, 'T.T', check, y[check])
-            check_list.append(0)
 
         Interesting_set.remove(check)
     end = time.time()
     print((end - start) * 1.0 / (k - 1))
-
-    return check_list, target_class
-
+    return
 
 def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
     '''
-        :param NNindex:
-        :param Abs_idx:
-        :param k:
-        :param y:
-        :param string2index:
-        :return:
-        '''
+    The difference between RCE_reconstruction and RCE_reconstruction_constrainb is that the parameter b in the latter is fixed to 1, in order to reduce the reconstruction ability.
+    '''
     pick_num = 0
     Index_list = list(Abs_idx[k - args.KMIN])
     Index_list.reverse()
@@ -186,18 +142,6 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
     Neg_sample_set = set()
     # construct_num = max(100, 2*k)
     construct_num = 1000
-    check_list = [1]
-
-    for i in range(150):
-        print(Index_list[i], y[Index_list[i]])
-
-    print('Mining ？ (y/[n])?')
-    yes = str(input())
-    if yes not in ('y', 'yes'):
-        print('finishing..')
-        return
-    else:
-        print('resuming operation...')
 
     print('Please enter the index of sample you are interested in.'),
     first_sample = int(input())
@@ -208,7 +152,6 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
     Pos_sample_set.add(first_sample)
 
     for iter in range(k - 1):
-
         candidate = list(Interesting_set)
         similarity = dict()
         Info = dict()
@@ -226,16 +169,12 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
             # gamma1 = 1000  # Penalty
             # gamma2 = 1
             gamma1 = 100
-
             B = np.eye(D.shape[1])
             B *= gamma1
             u = np.expand_dims(e, axis=1)
-            # u = np.expand_dims(np.concatenate([e, np.ones(1)], axis= 0), axis=1)
             P = np.matmul(D.T, D) + B
             P_I = np.linalg.inv(P)
             a = np.matmul(P_I, u) / (np.matmul(np.matmul(u.T, P_I), u))
-            # a = np.abs(a)
-            # print(a)
             similarity[c] = -1 * (np.linalg.norm(np.matmul(a.T, sample_pos) - X[[c]]) ** 2)
             Info[c] = []
             Info[c].append(('pos_a', a))
@@ -273,29 +212,15 @@ def Sample_Construct_constrainb(NNindex, Abs_idx, k, X, y, string2index=None):
         Sorted = np.array(sorted(similarity.items(), key=lambda similarity: similarity[1], reverse=True)).astype(int)
         check = Sorted[0][0]
 
-        m = k - 1 - iter
-        top_m = Sorted[:m, 0]
-
-        # 计算precision
-        fenzi = 0
-        for i in top_m:
-            if y[i] == target_class:
-                fenzi += 1
-
         # print(Info[check])
         if y[check] == target_class:
             Pos_sample_set.add(check)
-            check_list.append(1)
             print(iter + 1, 'gocha!', check, y[check])
         else:
             Neg_sample_set.add(check)
             print(iter + 1, 'T.T', check, y[check])
-            check_list.append(0)
-
         Interesting_set.remove(check)
-
-    print(sum(check_list) * 1.0 / len(check_list))
-    return check_list, target_class
+    return
 
 def main():
 

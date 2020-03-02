@@ -1,7 +1,7 @@
-from absl import flags
+# -*- coding:utf-8 -*-
 import os
 
-# Parameter Setting
+# Parameter Settings
 class Args(object):
     def __init__(self, dataset):
         self.dataset = dataset
@@ -15,7 +15,7 @@ class Args(object):
 
         elif self.dataset == 'Kddcup':
             self.KMIN = 2
-            self.KMAX = 200
+            self.KMAX = 500
 
         elif self.dataset == 'Bird':
             self.KMIN = 2
@@ -23,7 +23,7 @@ class Args(object):
 
         elif self.dataset == 'Game':
             self.KMIN = 2
-            self.KMAX = 200
+            self.KMAX = 1000
 
         else:
             raise Exception('No Dataset named', self.dataset, '.')
