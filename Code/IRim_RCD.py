@@ -92,31 +92,44 @@ def RCD_interact(NNindex, Abs_idx, Abs_scr, k):
     Query_list.reverse()
 
     #一个切片list
-    print('本次query一共有', len(Query_list), '个数据,将由candidate score 最高的数据点进行贴标 ，1 for 感兴趣, 0 for 不感兴趣')
+    print('There are',len(Query_list),'data samples included in this query and will be labeled sequentially according to the candidate score (From big to small)')
+    print('1 for intereseted, 0 for not intereseted.')
+    pick_num = 0
+    Label_dict = {}
 
     while True:
 
+        if len(Query_list) == 0:
+            print('Mining finishing..')
+            break
+
+        Top_index = Query_list[0]
+        pick_num += 1
         print('please label this sample, 1 for interested in , 0 for uninterested in.')
         label = (input())
+        # record user's interest
+        Label_dict[Top_index] = label
         print('Applied kNN rule for this sample? (y/[n])?')
-        yes =
-        if not yes.:
-
+        yes = str(input())
+        if yes in ('y', 'yes'):
+            # applied kNN rule to eluminate similar data samples
             K_index = KNN(NNindex, Top_index, k)
-            Delete_index = set(K_index) & set(Index_list)
+            Delete_index = set(K_index) & set(Query_list)
 
+            for i in Delete_index:
+                Query_list.remove(i)
 
-
-    return
+    return Label_dict
 
 def main():
-    while True:
-        print('please enter the parameter k, enter any negative number to exit..')
-        k = int(input())
-        if k < 0:
-            print('finishing..')
-            break
-        RCD_auto(NNindex, Abs_idx, k, y)
+
+    # while True:
+    #     print('please enter the parameter k, enter any negative number to exit..')
+    #     k = int(input())
+    #     if k < 0:
+    #         print('finishing..')
+    #         break
+    #     RCD_auto(NNindex, Abs_idx, k, y)
 
     while True:
         print('please enter the parameter k, enter any negative number to exit..')
@@ -124,7 +137,7 @@ def main():
         if k < 0:
             print('finishing..')
             break
-
+        RCD_interact(NNindex, Abs_idx, Abs_scr, k)
 
 
 if __name__ == '__main__':
